@@ -6,6 +6,7 @@ export const WeatherContext = createContext(); // Export the context directly
 // Create the provider component
 export const WeatherProvider = ({ children }) => {
     const [weather, setWeather] = useState(null);
+    const [weatherForeCast, setWeatherForeCast] = useState(null);
     const [error, setError] = useState(null);
     const [degreeType, setDegreeType] = useState("metric");
 
@@ -14,7 +15,7 @@ export const WeatherProvider = ({ children }) => {
     };
 
     return (
-        <WeatherContext.Provider value={{ weather, setWeather, error, setError, degreeType, toggleDegreeType }}>
+        <WeatherContext.Provider value={{ weather, setWeather, error, setError, degreeType, toggleDegreeType, weatherForeCast, setWeatherForeCast }}>
             {children}
         </WeatherContext.Provider>
     );

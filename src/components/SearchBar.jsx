@@ -1,8 +1,8 @@
 // components/SearchBar.js
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { WeatherContext } from "../context/WeatherContext"; // Import your existing context
 import axios from "axios";
-import { IoIosSearch } from "react-icons/io";
+import { IoIosSearch, IoIosSwitch } from "react-icons/io";
 
 const SearchBar = () => {
     const [city, setCity] = useState("");
@@ -10,8 +10,28 @@ const SearchBar = () => {
     const [long, setLong] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [listCount, setListCount] = useState(null);
-    const { setWeather, setError, degreeType, toggleDegreeType } = useContext(WeatherContext); // Access degreeType from context
+    const { setWeather, setWeatherForeCast, setError, degreeType, toggleDegreeType } = useContext(WeatherContext); // Access degreeType from context
     const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+    const [showButton, setShowButton] = useState(true); // State to manage button visibility
+    let lastScrollY = 0; // Variable to store last scroll position
+
+    // Handle scroll event to show/hide button based on scroll direction
+    const handleScroll = () => {
+        if (window.scrollY > lastScrollY) {
+            // Scrolling down - Hide button
+            setShowButton(false);
+        } else {
+            // Scrolling up - Show button
+            setShowButton(true);
+        }
+        lastScrollY = window.scrollY; // Update the scroll position
+    };
+
+    // Add scroll event listener on mount and cleanup on unmount
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     // Fetch location suggestions
     const fetchLocations = async (cityName) => {
@@ -55,40 +75,70 @@ const SearchBar = () => {
         } catch (error) {
             setError("Error fetching weather. Please try again.");
         }
+        fetchFiveDaysForecast(lat, lon);
     };
+
+    const fetchFiveDaysForecast = async (lat, lon) => {
+        const URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=${degreeType}`; // Use degreeType here
+
+        try {
+            const response = await axios.get(URL);
+            setWeatherForeCast(response.data.daily);
+        } catch (error) {
+            setError("Error fetching weather. Please try again.");
+        }
+    }
 
     return (
         <div className="w-full py-10">
             <div className="container mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 w-full">
-  {/* Input Field */}
-  <input
-    type="text"
-    placeholder="Enter Location Name"
-    value={city}
-    onChange={(e) => setCity(e.target.value)}
-    className="w-full max-w-lg rounded-lg py-2 px-4 border border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-  />
+                {/* Input Field */}
+                <input
+                    type="text"
+                    placeholder="Enter Location Name"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="w-full md:max-w-xs rounded-lg py-2 px-4 border border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
 
-  {/* Button Wrapper */}
-  <div className="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-3 sm:gap-2">
-    {/* Search Button */}
-    <button
-      className="flex items-center justify-center py-2 px-5 text-white bg-indigo-500 rounded-lg hover:scale-110 hover:bg-indigo-700 transition-all duration-300 w-full sm:w-auto"
-      onClick={() => fetchLocations(city)}
-    >
-      <IoIosSearch className="text-xl text-white font-semibold mr-2" />
-      Search
-    </button>
+                {/* Button Wrapper */}
+                <div className="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-3 sm:gap-2">
+                    {/* Search Button */}
+                    <button
+                        className="flex items-center justify-center py-2 px-5 text-white bg-indigo-500 rounded-lg hover:scale-110 hover:bg-indigo-700 transition-all duration-300 w-full sm:w-auto"
+                        onClick={() => fetchLocations(city)}
+                    >
+                        <IoIosSearch className="text-xl text-white font-semibold mr-2" />
+                        Search
+                    </button>
 
-    {/* Degree Type Toggle */}
-    <button
-      className="flex items-center justify-center py-2 px-5 text-white bg-indigo-500 rounded-lg hover:scale-110 hover:bg-indigo-700 transition-all duration-300 w-full sm:w-auto"
-      onClick={toggleDegreeType}
-    >
-      Switch to {degreeType === "metric" ? "°F" : "°C"}
-    </button>
-  </div>
-</div>
+                    <button
+                        className={`fixed right-5 top-1/2 transform -translate-y-1/2 z-50 flex items-center gap-3 bg-gray-900 p-2 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 ${showButton ? "opacity-100" : "opacity-0 pointer-events-none"
+                            }`}
+                        onClick={toggleDegreeType}
+                    >
+                        {/* Background Slider */}
+                        <div className="relative w-24 h-12 bg-gray-700 rounded-full flex items-center p-1 transition-all duration-300">
+                            {/* Larger Sliding Circle */}
+                            <div
+                                className={`absolute w-10 h-10 bg-black rounded-full shadow-md transform transition-transform duration-300 ${degreeType === "metric" ? "translate-x-0" : "translate-x-12"}`}
+                            ></div>
+
+                            {/* °C Label with Higher Contrast */}
+                            <span className={`absolute left-3 text-lg font-semibold transition-opacity ${degreeType === "metric" ? "text-white opacity-100" : "text-gray-300 opacity-80"}`}>
+                                °C
+                            </span>
+
+                            {/* °F Label with Higher Contrast */}
+                            <span className={`absolute right-4 text-lg font-semibold transition-opacity ${degreeType === "metric" ? "text-gray-300 opacity-80" : "text-white opacity-100"}`}>
+                                °F
+                            </span>
+                        </div>
+                    </button>
+
+
+                </div>
+            </div>
 
             {/* Suggestions Dropdown */}
             {listCount === 0 ? (

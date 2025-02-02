@@ -13,8 +13,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      {" "}
-      {/* Wrap your app with QueryClientProvider */}
       <WeatherProvider>
         <App />
       </WeatherProvider>

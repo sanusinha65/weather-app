@@ -6,9 +6,10 @@ import ErrorMessage from "./components/ErrorMessage";
 import axios from "axios";
 import "./App.css";
 import { IoIosSunny } from "react-icons/io";
+import WeatherForeCast from "./components/WeatherForeCast";
 
 const App = () => {
-  const { setWeather, degreeType } = useContext(WeatherContext);
+  const { setWeather, setWeatherForeCast, degreeType } = useContext(WeatherContext);
 
   useEffect(() => {
     const lastCity = localStorage.getItem("lastCity");
@@ -17,6 +18,7 @@ const App = () => {
 
     if (lastCity) {
       fetchWeather(lastLat, lastLong);
+      fetchFiveDaysForecast(lastLat, lastLong);
     }
 
     // const interval = setInterval(() => {
@@ -40,8 +42,19 @@ const App = () => {
     }
   };
 
+  const fetchFiveDaysForecast = async (lat, lon) => {
+    const URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=${degreeType}`; // Use degreeType here
+
+    try {
+        const response = await axios.get(URL);
+        setWeatherForeCast(response.data.daily);
+    } catch (error) {
+        console.error("Error fetching weather. Please try again.");
+    }
+}
+
   return (
-    <div className="bg-gradient-to-r from-gray-800 to-black p-3 md:p-6 min-h-screen">
+    <div className="bg-gradient-to-bl from-gray-800 to-black p-3 md:p-6 min-h-screen">
       <div className="h-[60vh] max-w-screen-3xl mx-auto border-b border-white mb-10">
         <div className="flex flex-col items-center justify-center text-white">
           <div className="flex flex-row items-center">
@@ -53,8 +66,11 @@ const App = () => {
         <SearchBar />
         <ErrorMessage />
       </div>
-      <div>
+      <div className="lg:-translate-y-1/3">
         <WeatherDisplay />
+      </div>
+      <div>
+        <WeatherForeCast />
       </div>
     </div>
   );
