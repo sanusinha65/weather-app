@@ -89,7 +89,7 @@ const SearchBar = () => {
             <div className="container mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 w-full">
                 {/* Input Field */}
                 <input
-                    type="text"
+                    type="search"
                     placeholder="Enter Location Name"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
