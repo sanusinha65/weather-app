@@ -1,8 +1,7 @@
-// components/SearchBar.js
 import { useState, useContext, useEffect } from "react";
-import { WeatherContext } from "../context/WeatherContext"; // Import your existing context
+import { WeatherContext } from "../context/WeatherContext"; 
 import axios from "axios";
-import { IoIosSearch, IoIosSwitch } from "react-icons/io";
+import { IoIosSearch } from "react-icons/io";
 
 const SearchBar = () => {
     const [city, setCity] = useState("");
@@ -10,30 +9,26 @@ const SearchBar = () => {
     const [long, setLong] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [listCount, setListCount] = useState(null);
+    const [showButton, setShowButton] = useState(true);
+
     const { setWeather, setWeatherForeCast, setError, degreeType, toggleDegreeType } = useContext(WeatherContext); // Access degreeType from context
     const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
-    const [showButton, setShowButton] = useState(true); // State to manage button visibility
-    let lastScrollY = 0; // Variable to store last scroll position
+    let lastScrollY = 0; 
 
-    // Handle scroll event to show/hide button based on scroll direction
     const handleScroll = () => {
         if (window.scrollY > lastScrollY) {
-            // Scrolling down - Hide button
             setShowButton(false);
         } else {
-            // Scrolling up - Show button
             setShowButton(true);
         }
-        lastScrollY = window.scrollY; // Update the scroll position
+        lastScrollY = window.scrollY;
     };
 
-    // Add scroll event listener on mount and cleanup on unmount
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Fetch location suggestions
     const fetchLocations = async (cityName) => {
         setListCount(null);
         setSuggestions([]);
@@ -41,7 +36,7 @@ const SearchBar = () => {
             setListCount(0);
             return;
         }
-        const URL = `https://api.openweathermap.org/data/2.5/find?q=${cityName}&appid=${API_KEY}&units=${degreeType}`; // Use degreeType here
+        const URL = `https://api.openweathermap.org/data/2.5/find?q=${cityName}&appid=${API_KEY}&units=${degreeType}`; 
         try {
             const response = await axios.get(URL);
 
@@ -69,9 +64,9 @@ const SearchBar = () => {
             setCity(name);
             setLat(lat);
             setLong(lon);
-            localStorage.setItem("lastCity", name); // Store in local storage
-            localStorage.setItem("lastLat", lat); // Store in local storage
-            localStorage.setItem("lastLong", lon); // Store in local storage
+            localStorage.setItem("lastCity", name);
+            localStorage.setItem("lastLat", lat);
+            localStorage.setItem("lastLong", lon);
         } catch (error) {
             setError("Error fetching weather. Please try again.");
         }
@@ -119,17 +114,14 @@ const SearchBar = () => {
                     >
                         {/* Background Slider */}
                         <div className="relative w-24 h-12 bg-gray-700 rounded-full flex items-center p-1 transition-all duration-300">
-                            {/* Larger Sliding Circle */}
                             <div
                                 className={`absolute w-10 h-10 bg-black rounded-full shadow-md transform transition-transform duration-300 ${degreeType === "metric" ? "translate-x-0" : "translate-x-12"}`}
                             ></div>
 
-                            {/* °C Label with Higher Contrast */}
                             <span className={`absolute left-3 text-lg font-semibold transition-opacity ${degreeType === "metric" ? "text-white opacity-100" : "text-gray-300 opacity-80"}`}>
                                 °C
                             </span>
 
-                            {/* °F Label with Higher Contrast */}
                             <span className={`absolute right-4 text-lg font-semibold transition-opacity ${degreeType === "metric" ? "text-gray-300 opacity-80" : "text-white opacity-100"}`}>
                                 °F
                             </span>
@@ -140,7 +132,6 @@ const SearchBar = () => {
                 </div>
             </div>
 
-            {/* Suggestions Dropdown */}
             {listCount === 0 ? (
                 <p className="text-red-600 font-semibold text-xl text-center mt-3">Please try a correct location name!</p>
             ) : (

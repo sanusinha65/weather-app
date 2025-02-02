@@ -1,16 +1,14 @@
 import React, { useContext } from "react";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion"; 
 import { WeatherContext } from "../context/WeatherContext";
 
 export default function WeatherForeCast() {
     const { weatherForeCast, degreeType } = useContext(WeatherContext);
 
-    // Ensure forecast data is available before rendering
     if (!weatherForeCast || weatherForeCast.length === 0) {
         return <p className="text-center text-white"></p>;
     }
 
-    // Function to format date
     const formatDate = (timestamp) => {
         return new Date(timestamp * 1000).toLocaleDateString("en-US", {
             weekday: "short",

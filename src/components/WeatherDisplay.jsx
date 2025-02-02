@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion"; 
 import { WeatherContext } from "../context/WeatherContext";
 import { IoLocation } from "react-icons/io5";
 import { LiaTemperatureHighSolid } from "react-icons/lia";
@@ -26,7 +26,7 @@ const WeatherDisplay = () => {
         month: 'short',
         year: '2-digit',
     });
-    
+
     const dayString = currentDate.toLocaleString('default', { weekday: 'long' });
 
     // Weather icon URL from OpenWeather API

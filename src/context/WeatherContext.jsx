@@ -1,9 +1,7 @@
 import React, { createContext, useState, useContext } from "react";
 
-// Create the context
-export const WeatherContext = createContext(); // Export the context directly
+export const WeatherContext = createContext(); 
 
-// Create the provider component
 export const WeatherProvider = ({ children }) => {
     const [weather, setWeather] = useState(null);
     const [weatherForeCast, setWeatherForeCast] = useState(null);

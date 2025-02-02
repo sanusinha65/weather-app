@@ -1,3 +1,38 @@
+# Approach
+
+## Structure
+
+First, I created the basic structure of the Weather App based on the requirements. I organized the project into reusable components, focusing on clarity and maintainability. The main components included WeatherDisplay, WeatherForecast, and the unit toggle button, with a clear separation of concerns for better scalability.
+
+## Design
+
+Since I have an interest in UI/UX design, I ensured the app would provide a smooth and visually appealing user experience. I drew inspiration from various popular weather apps to create a minimalist design with easy-to-read information. I also focused on making the interface responsive so it would work seamlessly across various devices, ensuring both mobile and desktop users would have a pleasant experience.
+
+## Functions
+
+After setting up the basic structure, I started implementing the core functionality. This included fetching real-time weather data and the forecast using the OpenWeather API. I implemented the functionality for switching between Celsius and Fahrenheit, making sure the app displayed weather data correctly based on the selected unit. I also added a real-time clock to show the current time, which updates every second.
+
+## Implementation
+
+Once the core functionality was in place, I moved on to refining the code. I optimized the logic to minimize re-renders and ensured that the application was performant. I also worked on fine-tuning the design, incorporating smooth animations like sliding transitions for the unit switch button and hover effects for interactive elements. Tailwind CSS was used to streamline the styling process and ensure responsiveness across all screen sizes.
+
+## Testing
+
+After completing the main UI/UX design and functionality, I thoroughly tested the app on different devices, checking for responsiveness and performance. I ensured the weather data was fetched correctly and the unit toggle button worked smoothly. To get feedback from real users, I also shared the app with family and friends, who provided valuable insights. This allowed me to make final adjustments to both the design and the user experience.
+
+## Deployment
+
+Once everything was working as expected, I deployed the Weather App to a live server for final review. I ensured that the app was fully functional in a production environment, and I submitted the project for assignment review, confident that it met all the requirements and offered a smooth user experience.
+
+## Dependencies 
+
+- Tailwind CSS
+- Framer Motion
+- React Icons
+- React Query
+- Axios
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

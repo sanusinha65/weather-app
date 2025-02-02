@@ -4,9 +4,8 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { WeatherProvider } from "./context/WeatherContext";
-import { QueryClient, QueryClientProvider } from "react-query"; // Import React Query
+import { QueryClient, QueryClientProvider } from "react-query"; 
 
-// Create a new QueryClient instance
 const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

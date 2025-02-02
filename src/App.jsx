@@ -21,13 +21,13 @@ const App = () => {
       fetchFiveDaysForecast(lastLat, lastLong);
     }
 
-    // const interval = setInterval(() => {
-    //   if (lastCity) {
-    //     fetchWeather(lastCity);
-    //   }
-    // });
+    const interval = setInterval(() => {
+      if (lastCity) {
+        fetchWeather(lastLat, lastLong);
+      }
+    }, 30000); // Re-fetching Data After Every 30 Seconds
 
-    // return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, [degreeType]);
 
   const fetchWeather = async (lat, lon) => {
@@ -43,7 +43,7 @@ const App = () => {
   };
 
   const fetchFiveDaysForecast = async (lat, lon) => {
-    const URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=${degreeType}`; // Use degreeType here
+    const URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=${degreeType}`; 
 
     try {
         const response = await axios.get(URL);
