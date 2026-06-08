@@ -12,9 +12,9 @@ import ErrorMessage from "./components/ErrorMessage";
 import SearchBar from "./components/SearchBar";
 import WeatherDisplay from "./components/WeatherDisplay";
 import WeatherForeCast from "./components/WeatherForeCast";
+import { API_KEY, MESSAGES } from "./constants";
 import { useWeather } from "./context/WeatherContext";
 import { useWeatherData } from "./hooks/useWeather";
-import { API_KEY, MESSAGES } from "./constants";
 
 const AppHeader = () => (
   <div className="flex flex-col items-center justify-center text-white">

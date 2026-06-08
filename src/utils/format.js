@@ -5,7 +5,7 @@
 // to unit test, and stops every component from re-implementing the same
 // date/temperature/unit string logic.
 
-import { ENDPOINTS, UNIT_SYSTEMS, DEFAULT_UNITS } from "../constants";
+import { DEFAULT_UNITS, ENDPOINTS, UNIT_SYSTEMS } from "../constants";
 
 /**
  * Resolve a unit-system descriptor from its id, falling back to the default.
