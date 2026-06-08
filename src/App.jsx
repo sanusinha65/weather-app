@@ -5,8 +5,8 @@ import WeatherDisplay from "./components/WeatherDisplay";
 import ErrorMessage from "./components/ErrorMessage";
 // import axios from "axios";
 import "./App.css";
-import { IoIosSunny } from "react-icons/io";
-import WeatherForeCast from "./components/WeatherForeCast";
+// import { IoIosSunny } from "react-icons/io";
+// import WeatherForeCast from "./components/WeatherForeCast";
 
 const App = () => {
   const { setWeather, setWeatherForeCast, degreeType } = useContext(WeatherContext);
