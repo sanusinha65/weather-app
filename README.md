@@ -33,6 +33,45 @@ Once everything was working as expected, I deployed the Weather App to a live se
 - Axios
 
 
+# Backend (API proxy)
+
+The app originally called the OpenWeather API directly from the browser, which exposes the API key to anyone who opens dev tools. The `server/` folder adds a small Express backend that proxies those calls server-side, validates input, caches responses in memory, and keeps the key secret.
+
+## Endpoints
+
+| Method | Route | Query params | Description |
+| ------ | ----- | ------------ | ----------- |
+| `GET`  | `/health` | — | Liveness probe. |
+| `GET`  | `/api/locations` | `q` (required), `limit` (1–10, default 5) | Geocode a place name to coordinates. |
+| `GET`  | `/api/weather` | `lat`, `lon` (required), `units` (`metric`/`imperial`/`standard`) | Current weather for a coordinate. |
+| `GET`  | `/api/forecast` | `lat`, `lon` (required), `units` | 5-day forecast condensed to one entry per day (`{ daily: [...] }`). |
+
+## Running the backend
+
+```bash
+cd server
+npm install
+cp .env.example .env   # then add your OpenWeather API key
+npm start              # or: npm run dev  (auto-reloads with --watch)
+```
+
+The server listens on `http://localhost:5000` by default. Configure `PORT`, `CORS_ORIGIN`, and `CACHE_TTL_SECONDS` via `.env`.
+
+## Pointing the frontend at the backend
+
+Instead of calling `https://api.openweathermap.org/...` from React, call the backend, e.g.:
+
+```js
+// search
+await axios.get("http://localhost:5000/api/locations", { params: { q: city } });
+// current weather
+await axios.get("http://localhost:5000/api/weather", { params: { lat, lon, units: degreeType } });
+// forecast (returns { daily: [...] })
+await axios.get("http://localhost:5000/api/forecast", { params: { lat, lon, units: degreeType } });
+```
+
+This removes the need for `REACT_APP_WEATHER_API_KEY` in the client bundle.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

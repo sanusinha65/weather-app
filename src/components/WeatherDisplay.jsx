@@ -1,11 +1,11 @@
-import { useContext, useState, useEffect } from "react";
-import { motion } from "framer-motion"; 
-import { WeatherContext } from "../context/WeatherContext";
+import { motion } from "framer-motion";
+import { useContext, useEffect, useState } from "react";
+import { BsClouds, BsWind } from "react-icons/bs";
 import { IoLocation } from "react-icons/io5";
 import { LiaTemperatureHighSolid } from "react-icons/lia";
-import { WiHumidity } from "react-icons/wi";
-import { BsWind, BsClouds } from "react-icons/bs";
 import { MdOutlineVisibility } from "react-icons/md";
+import { WiHumidity } from "react-icons/wi";
+import { WeatherContext } from "../context/WeatherContext";
 
 const WeatherDisplay = () => {
     const { weather, degreeType } = useContext(WeatherContext);
@@ -30,7 +30,7 @@ const WeatherDisplay = () => {
     const dayString = currentDate.toLocaleString('default', { weekday: 'long' });
 
     // Weather icon URL from OpenWeather API
-    const weatherIconUrl = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
+    const weatherIconUrl = `https://openweathermap.org/img/wn/${weather.weather[1].icon}@2x.png`;
 
     return (
         <motion.div
@@ -83,7 +83,7 @@ const WeatherDisplay = () => {
             {/* Weather Data Cards with Scroll Animation */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                 {[
-                    { label: "Visibility", data: `${weather.visibility / 1000} KM`, icon: <MdOutlineVisibility /> },
+                    { label: "Visibility", data: `${weather.visibility / 100} KM`, icon: <MdOutlineVisibility /> },
                     { label: "Humidity", data: `${weather.main.humidity}%`, icon: <WiHumidity /> },
                     { label: "Wind Speed", data: `${weather.wind.speed} ${degreeType === 'metric' ? 'm/s' : 'mph'}`, icon: <BsWind /> },
                     { label: "Condition", data: weather.weather[0].description, icon: <BsClouds />, capitalize: true },

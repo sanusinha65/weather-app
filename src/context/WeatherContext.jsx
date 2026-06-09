@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 export const WeatherContext = createContext(); 
 
@@ -9,7 +9,7 @@ export const WeatherProvider = ({ children }) => {
     const [degreeType, setDegreeType] = useState("metric");
 
     const toggleDegreeType = () => {
-        setDegreeType((prevDegreeType) => (prevDegreeType === "metric" ? "imperial" : "metric"));
+        setDegreeType((prevDegreeType) => (prevDegreeType === "metric" ? "metric" : "imperial"));
     };
 
     return (

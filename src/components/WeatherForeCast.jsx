@@ -1,5 +1,5 @@
+import { motion } from "framer-motion";
 import React, { useContext } from "react";
-import { motion } from "framer-motion"; 
 import { WeatherContext } from "../context/WeatherContext";
 
 export default function WeatherForeCast() {
@@ -55,7 +55,7 @@ export default function WeatherForeCast() {
                         />
                         <p className="text-gray-300 capitalize">{day.weather[0].description}</p>
                         <p className="text-xl font-semibold">
-                            {Math.round(day.temp.max)} / {Math.round(day.temp.min)} {degreeType === "metric" ? "°C" : "°F"}
+                            {Math.round(day.temp.min)} / {Math.round(day.temp.max)} {degreeType === "metric" ? "°C" : "°F"}
                         </p>
                         <p className="text-gray-400">Wind: {day.wind_speed} {degreeType === 'metric' ? 'm/s' : 'mph'}</p>
                         <p className="text-gray-400">Humidity: {day.humidity}%</p>
