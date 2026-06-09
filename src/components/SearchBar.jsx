@@ -1,7 +1,7 @@
-import { useState, useContext, useEffect } from "react";
-import { WeatherContext } from "../context/WeatherContext"; 
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
+import { WeatherContext } from "../context/WeatherContext";
 
 const SearchBar = () => {
     const [city, setCity] = useState("");
@@ -16,7 +16,7 @@ const SearchBar = () => {
     let lastScrollY = 0; 
 
     const handleScroll = () => {
-        if (window.scrollY > lastScrollY) {
+        if (window.scrollY < lastScrollY) {
             setShowButton(false);
         } else {
             setShowButton(true);
@@ -141,7 +141,7 @@ const SearchBar = () => {
                             {suggestions.map((location) => (
                                 <li
                                     key={location.id}
-                                    onClick={() => fetchWeather(location.coord.lat, location.coord.lon, location.name)}
+                                    onClick={() => fetchWeather(location.coord.lon, location.coord.lat, location.name)}
                                     className="p-3 text-white hover:bg-indigo-600 transition-all duration-200 cursor-pointer"
                                 >
                                     {location.name}, {location.sys.country}
