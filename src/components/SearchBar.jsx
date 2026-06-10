@@ -1,7 +1,7 @@
-import { useState, useContext, useEffect } from "react";
-import { WeatherContext } from "../context/WeatherContext"; 
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
+import { WeatherContext } from "../context/WeatherContext";
 
 const SearchBar = () => {
     const [city, setCity] = useState("");
@@ -65,16 +65,16 @@ const SearchBar = () => {
             setLat(lat);
             setLong(lon);
             localStorage.setItem("lastCity", name);
-            localStorage.setItem("lastLat", lat);
-            localStorage.setItem("lastLong", lon);
+            localStorage.setItem("lastLat", lon);
+            localStorage.setItem("lastLong", lat);
         } catch (error) {
             setError("Error fetching weather. Please try again.");
         }
-        fetchFiveDaysForecast(lat, lon);
+        fetchFiveDaysForecast(lon, lat);
     };
 
     const fetchFiveDaysForecast = async (lat, lon) => {
-        const URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=${degreeType}`; // Use degreeType here
+        const URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${degreeType === "metric" ? "imperial" : "metric"}`; // Use degreeType here
 
         try {
             const response = await axios.get(URL);
@@ -92,7 +92,8 @@ const SearchBar = () => {
                     type="search"
                     placeholder="Enter Location Name"
                     value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    onChange={(e) => setCity(e.target.value.trimStart())}
+                    onKeyDown={(e) => e.key === "Enter" && fetchLocations(city + " ")}
                     className="w-full md:max-w-xs rounded-lg py-2 px-4 border border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
 
@@ -141,7 +142,7 @@ const SearchBar = () => {
                             {suggestions.map((location) => (
                                 <li
                                     key={location.id}
-                                    onClick={() => fetchWeather(location.coord.lat, location.coord.lon, location.name)}
+                                    onClick={() => fetchWeather(location.coord.lon, location.coord.lat, location.name)}
                                     className="p-3 text-white hover:bg-indigo-600 transition-all duration-200 cursor-pointer"
                                 >
                                     {location.name}, {location.sys.country}

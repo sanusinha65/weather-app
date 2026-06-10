@@ -1,12 +1,12 @@
-import { useEffect, useContext } from "react";
-import { WeatherContext } from "./context/WeatherContext";
+import axios from "axios";
+import { useContext, useEffect } from "react";
+import { IoIosSunny } from "react-icons/io";
+import "./App.css";
+import ErrorMessage from "./components/ErrorMessage";
 import SearchBar from "./components/SearchBar";
 import WeatherDisplay from "./components/WeatherDisplay";
-import ErrorMessage from "./components/ErrorMessage";
-import axios from "axios";
-import "./App.css";
-import { IoIosSunny } from "react-icons/io";
 import WeatherForeCast from "./components/WeatherForeCast";
+import { WeatherContext } from "./context/WeatherContext";
 
 const App = () => {
   const { setWeather, setWeatherForeCast, degreeType } = useContext(WeatherContext);
@@ -16,7 +16,7 @@ const App = () => {
     const lastLat = localStorage.getItem("lastLat");
     const lastLong = localStorage.getItem("lastLong");
 
-    if (lastCity = null) {
+    if (lastCity == null) {
       fetchWeather(lastLat, lastLong);
       fetchFiveDaysForecast(lastLat, lastLong);
     }
@@ -51,6 +51,7 @@ const App = () => {
     } catch (error) {
         console.error("Error fetching weather. Please try again.");
     }
+  };
 
   return (
     <div className="bg-gradient-to-bl from-gray-800 to-black p-3 md:p-6 min-h-screen">

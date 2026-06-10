@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import { QueryClient, QueryClientProvider } from "react-query";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import { WeatherProvider } from "./context/WeatherContext";
-import { QueryClient, QueryClientProvider } from "react-query"; 
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 
 const queryClient = new QueryClient();
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root") || document.body);
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
