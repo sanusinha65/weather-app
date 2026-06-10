@@ -1,5 +1,5 @@
+import { motion } from "framer-motion";
 import React, { useContext } from "react";
-import { motion } from "framer-motion"; 
 import { WeatherContext } from "../context/WeatherContext";
 
 export default function WeatherForeCast() {
@@ -10,7 +10,7 @@ export default function WeatherForeCast() {
     }
 
     const formatDate = (timestamp) => {
-        return new Date(timestamp * 1000).toLocaleDateString("en-US", {
+        return new Date(timestamp).toLocaleDateString("en-US", {
             weekday: "short",
             month: "short",
             day: "numeric",
@@ -38,7 +38,7 @@ export default function WeatherForeCast() {
 
             {/* Forecast Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-6">
-                {weatherForeCast.map((day, index) => (
+                {weatherForeCast.slice(0, 4).map((day, index) => (
                     <motion.div
                         key={index}
                         className="bg-gray-800 text-white rounded-2xl p-6 shadow-md text-center"
@@ -55,7 +55,7 @@ export default function WeatherForeCast() {
                         />
                         <p className="text-gray-300 capitalize">{day.weather[0].description}</p>
                         <p className="text-xl font-semibold">
-                            {Math.round(day.temp.max)} / {Math.round(day.temp.min)} {degreeType === "metric" ? "°C" : "°F"}
+                            {Math.round(day.temp.min)} / {Math.round(day.temp.max)} {degreeType === "metric" ? "°F" : "°C"}
                         </p>
                         <p className="text-gray-400">Wind: {day.wind_speed} {degreeType === 'metric' ? 'm/s' : 'mph'}</p>
                         <p className="text-gray-400">Humidity: {day.humidity}%</p>

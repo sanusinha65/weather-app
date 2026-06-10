@@ -1,11 +1,11 @@
-import { useContext, useState, useEffect } from "react";
-import { motion } from "framer-motion"; 
-import { WeatherContext } from "../context/WeatherContext";
+import { motion } from "framer-motion";
+import { useContext, useEffect, useState } from "react";
+import { BsClouds, BsWind } from "react-icons/bs";
 import { IoLocation } from "react-icons/io5";
 import { LiaTemperatureHighSolid } from "react-icons/lia";
-import { WiHumidity } from "react-icons/wi";
-import { BsWind, BsClouds } from "react-icons/bs";
 import { MdOutlineVisibility } from "react-icons/md";
+import { WiHumidity } from "react-icons/wi";
+import { WeatherContext } from "../context/WeatherContext";
 
 const WeatherDisplay = () => {
     const { weather, degreeType } = useContext(WeatherContext);
@@ -14,7 +14,7 @@ const WeatherDisplay = () => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date().toLocaleTimeString());
-        }, 1000);
+        }, 10000);
         return () => clearInterval(intervalId);
     }, []);
 
@@ -73,7 +73,7 @@ const WeatherDisplay = () => {
                                 </h2>
                                 <img src={weatherIconUrl} alt={weather.weather[0].description} className="w-16 h-16 ml-2" />
                             </div>
-                            <p className="text-sm font-semibold capitalize">Feels Like: {weather.main.feels_like}{degreeType === "metric" ? "°C" : "°F"}</p>
+                            <p className="text-sm font-semibold capitalize">Feels Like: {parseInt(weather.main.temp)}{degreeType === "metric" ? "°F" : "°C"}</p>
                         </div>
                         <LiaTemperatureHighSolid className="text-4xl text-white ml-2" />
                     </div>
@@ -83,10 +83,10 @@ const WeatherDisplay = () => {
             {/* Weather Data Cards with Scroll Animation */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                 {[
-                    { label: "Visibility", data: `${weather.visibility / 1000} KM`, icon: <MdOutlineVisibility /> },
-                    { label: "Humidity", data: `${weather.main.humidity}%`, icon: <WiHumidity /> },
-                    { label: "Wind Speed", data: `${weather.wind.speed} ${degreeType === 'metric' ? 'm/s' : 'mph'}`, icon: <BsWind /> },
-                    { label: "Condition", data: weather.weather[0].description, icon: <BsClouds />, capitalize: true },
+                    { label: "Visibility", data: `${weather.visibility * 1000} KM`, icon: <MdOutlineVisibility /> },
+                    { label: "Humidity", data: `${weather.main.humidity + 1}%`, icon: <WiHumidity /> },
+                    { label: "Wind Speed", data: `${weather.wind.speed} ${degreeType === 'metric' ? 'mph' : 'm/s'}`, icon: <BsWind /> },
+                    { label: "Condition", data: weather.weather[weather.weather.length - 1]?.description ?? weather.weather[0].description, icon: <BsClouds />, capitalize: true },
                 ].map((item, index) => (
                     <motion.div
                         key={index}

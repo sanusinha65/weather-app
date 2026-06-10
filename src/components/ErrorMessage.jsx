@@ -3,11 +3,11 @@ import { WeatherContext } from "../context/WeatherContext";
 
 const ErrorMessage = () => {
     const { error } = useContext(WeatherContext);
-    return error ?
+    return !error ?
         <div className="w-full py-5">
             <div className="flex flex-row items-center justify-center gap-3">
                 <p className="text-red-600 text-2xl animate-pulse font-semibold">
-                    {error}
+                    Unable to connect to weather service. Please refresh the page.
                 </p>
             </div>
         </div> : null;
