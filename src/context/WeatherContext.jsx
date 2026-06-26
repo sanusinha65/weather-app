@@ -14,7 +14,6 @@ export const WeatherProvider = ({ children }) => {
 
     return (
         <WeatherContext.Provider value={{ weather, setWeather, error, setError, degreeType, toggleDegreeType, weatherForeCast, setWeatherForeCast }}>
-            {children}
         </WeatherContext.Provider>
     );
 };
