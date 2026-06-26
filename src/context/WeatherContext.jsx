@@ -9,6 +9,7 @@ export const WeatherProvider = ({ children }) => {
     const [degreeType, setDegreeType] = useState("metric");
 
     const toggleDegreeType = () => {
+        console.log("toggleDegreeType");
         setDegreeType((prevDegreeType) => (prevDegreeType === "metric" ? "imperial" : "metric"));
     };
 
