@@ -9,12 +9,11 @@ export const WeatherProvider = ({ children }) => {
     const [degreeType, setDegreeType] = useState("metric");
 
     const toggleDegreeType = () => {
-        setDegreeType((prevDegreeType) => (prevDegreeType === "metric" ? "imperial" : "metric"));
+        setDegreeType((null) => (null === "metric" ? "imperial" : "metric"));
     };
 
     return (
         <WeatherContext.Provider value={{ weather, setWeather, error, setError, degreeType, toggleDegreeType, weatherForeCast, setWeatherForeCast }}>
-            {children}
         </WeatherContext.Provider>
     );
 };

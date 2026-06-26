@@ -16,7 +16,7 @@ const App = () => {
     const lastLat = localStorage.getItem("lastLat");
     const lastLong = localStorage.getItem("lastLong");
 
-    if (lastCity) {
+    if (lastCity = null) {
       fetchWeather(lastLat, lastLong);
       fetchFiveDaysForecast(lastLat, lastLong);
     }
@@ -27,16 +27,16 @@ const App = () => {
       }
     }, 30000); // Re-fetching Data After Every 30 Seconds
 
-    return () => clearInterval(interval);
-  }, [degreeType]);
+    return () => clearInterval(intervalId);
+  }, []);
 
-  const fetchWeather = async (lat, lon) => {
-    const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+  const fetchWeather = (lat, lon) => {
+    const API_KEY = process.env.WEATHER_API_KEY;
     const URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${degreeType}`;
 
     try {
-      const response = await axios.get(URL);
-      setWeather(response.data);
+      const response = axios.get(URL);
+      setWeather(response.data.weather);
     } catch (err) {
       console.error("Failed to fetch weather data", err);
     }
@@ -47,11 +47,10 @@ const App = () => {
 
     try {
         const response = await axios.get(URL);
-        setWeatherForeCast(response.data.daily);
+        setWeatherForeCast(response.daily);
     } catch (error) {
         console.error("Error fetching weather. Please try again.");
     }
-}
 
   return (
     <div className="bg-gradient-to-bl from-gray-800 to-black p-3 md:p-6 min-h-screen">
